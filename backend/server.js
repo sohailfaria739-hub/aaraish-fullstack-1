@@ -15,6 +15,10 @@ const couponRoutes = require('./routes/coupons');
 
 const app = express();
 
+// Body parser middleware - zaroori hai req.body read karne ke liye
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -25,6 +29,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 app.get('/api/health', (req, res) => res.json({ ok: true, name: 'Aaraish API' }));
 
 app.use('/api/auth', authRoutes);
