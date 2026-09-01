@@ -10,9 +10,9 @@ export default function Home() {
   const [trending, setTrending] = useState([]);
 
   useEffect(() => {
-    client.get('/products/categories').then((res) => setCategories(res.data.categories));
-    client.get('/products?limit=8').then((res) => setFeatured(res.data.products));
-    client.get('/products?sort=popular&limit=4').then((res) => setTrending(res.data.products));
+    client.get('/products/categories').then((res) => setCategories(res.data.categories || []));
+    client.get('/products?limit=8').then((res) => setFeatured(res.data.products || []));
+    client.get('/products?sort=popular&limit=4').then((res) => setTrending(res.data.products || []));
   }, []);
 
   return (
@@ -79,7 +79,7 @@ export default function Home() {
           <Link to="/shop" className="text-sm text-wine hover:underline hidden sm:block">View all</Link>
         </div>
         <div className="flex gap-4 overflow-x-auto pb-2 -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 lg:grid-cols-6">
-          {categories.map((c) => (
+          {categories?.map((c) => (
             <Link
               key={c.id}
               to={`/shop?category=${c.slug}`}
@@ -102,19 +102,19 @@ export default function Home() {
           <Link to="/shop" className="text-sm text-wine hover:underline hidden sm:block">Browse the shop</Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10">
-          {featured.map((p) => (
+          {featured?.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
       </section>
 
       {/* Trending strip */}
-      {trending.length > 0 && (
+      {trending?.length > 0 && (
         <section className="bg-mist mt-20 py-16">
           <div className="container-px">
             <h2 className="font-display text-2xl sm:text-3xl text-ink mb-6">Most loved right now</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10">
-              {trending.map((p) => (
+              {trending?.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
